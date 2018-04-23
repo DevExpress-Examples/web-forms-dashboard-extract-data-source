@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dashboard>
+  <Title Text="New Dashboard" />
+  <DataSources>
+    <ExtractFileDataSource ComponentName="extractFileDataSource1" Name="Invoices Extract Data Source">
+      <FileName>c:\Work\Projects\WorkExamples\ASP_WebDashboard\ASP_WebDashboard\App_Data\ExtractDataSource\ExtractDS_20170420114628636.dat</FileName>
+      <ExtractSourceDataMember>Invoices</ExtractSourceDataMember>
+      <ExtractSource>
+        <SqlDataSource>
+          <Name>Northwind Invoices</Name>
+          <Connection Name="nwindConnection" FromAppConfig="true" />
+          <Query Type="SelectQuery" Name="Invoices">
+            <Tables>
+              <Table Name="Invoices" />
+            </Tables>
+            <Columns>
+              <Column Table="Invoices" Name="Customers.CompanyName" />
+              <Column Table="Invoices" Name="Address" />
+              <Column Table="Invoices" Name="City" />
+              <Column Table="Invoices" Name="Region" />
+              <Column Table="Invoices" Name="PostalCode" />
+              <Column Table="Invoices" Name="Country" />
+              <Column Table="Invoices" Name="Salesperson" />
+              <Column Table="Invoices" Name="OrderDate" />
+              <Column Table="Invoices" Name="Shippers.CompanyName" />
+              <Column Table="Invoices" Name="ProductName" />
+              <Column Table="Invoices" Name="UnitPrice" />
+              <Column Table="Invoices" Name="Quantity" />
+              <Column Table="Invoices" Name="Discount" />
+              <Column Table="Invoices" Name="ExtendedPrice" />
+              <Column Table="Invoices" Name="Freight" />
+            </Columns>
+          </Query>
+          <ConnectionOptions CloseConnection="true" CommandTimeout="0" />
+        </SqlDataSource>
+      </ExtractSource>
+      <Parameters />
+    </ExtractFileDataSource>
+  </DataSources>
+  <Items>
+    <Grid ComponentName="gridDashboardItem1" Name="Grid 1" DataSource="extractFileDataSource1">
+      <DataItems>
+        <Dimension DataMember="Country" DefaultId="DataItem0" />
+        <Dimension DataMember="City" DefaultId="DataItem1" />
+        <Measure DataMember="Freight" DefaultId="DataItem2" />
+      </DataItems>
+      <GridColumns>
+        <GridDimensionColumn>
+          <Dimension DefaultId="DataItem0" />
+        </GridDimensionColumn>
+        <GridDimensionColumn>
+          <Dimension DefaultId="DataItem1" />
+        </GridDimensionColumn>
+        <GridMeasureColumn>
+          <Measure DefaultId="DataItem2" />
+        </GridMeasureColumn>
+      </GridColumns>
+      <GridOptions />
+    </Grid>
+  </Items>
+  <LayoutTree>
+    <LayoutGroup>
+      <LayoutItem DashboardItem="gridDashboardItem1" />
+    </LayoutGroup>
+  </LayoutTree>
+</Dashboard>
