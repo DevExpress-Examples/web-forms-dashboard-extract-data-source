@@ -8,30 +8,26 @@
 <head runat="server">
     <title></title>
     <script type="text/javascript">
-        function UpdateExtractDataSource(s, e) {            
+        function UpdateExtractDataSource(s, e) {
             e.processOnServer = false;
             $.ajax({
-                url: "Default.aspx/UpdateExtractDataSource",                
+                url: "Default.aspx/AddExtractDataSource",
                 type: "POST",
-                data: JSON.stringify({path: $('#hiPath').val()}),
+                data: {},
                 contentType: "application/json; charset=utf-8"
             }).done(function (result) {
-                alert(result.d);
+                dashboard.Refresh();
             });
-
         }
     </script>
 </head>
 <body>
     <form id="form1" runat="server">
     <div>
-        <dx:ASPxButton ID="bUpdateDS" runat="server" Text="Update Extract Data Source" UseSubmitBehavior="false" ClientSideEvents-Click="UpdateExtractDataSource"></dx:ASPxButton>  
-
-        <input runat="server" id="hiPath" type="hidden" enableviewstate="true" />
-    
-        <dx:ASPxDashboard ID="ASPxDashboard1" runat="server" DashboardStorageFolder="~/App_Data/Dashboards/" OnConfigureDataConnection="ASPxDashboard1_ConfigureDataConnection">
-        </dx:ASPxDashboard>
-    
+        <dx:ASPxButton ID="bUpdateDS" runat="server" Text="Update Extract Data Source" UseSubmitBehavior="false" ClientSideEvents-Click="UpdateExtractDataSource"></dx:ASPxButton>           
+        <dx:ASPxDashboard ID="ASPxDashboard1" runat="server" ClientInstanceName="dashboard" DashboardStorageFolder="~/App_Data/Dashboards/" 
+            OnConfigureDataConnection="ASPxDashboard1_ConfigureDataConnection" OnCustomParameters="ASPxDashboard1_CustomParameters" >
+        </dx:ASPxDashboard>    
     </div>
     </form>
 </body>
