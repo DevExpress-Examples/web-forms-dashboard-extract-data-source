@@ -8,16 +8,16 @@
 ```cs
 DashboardSqlDataSource nwindDataSource = new DashboardSqlDataSource("Northwind Invoices", "nwindConnection");
 SelectQuery invoicesQuery = SelectQueryFluentBuilder
-    .AddTable("Invoices")
-    .SelectColumns("Customers.CompanyName", "Address", "City", "Region", "PostalCode", "Country", "Salesperson", "OrderDate", "Shippers.CompanyName", "ProductName", "UnitPrice", "Quantity", "Discount", "ExtendedPrice", "Freight")
-    .Build("Invoices");
+	.AddTable("Invoices")
+	.SelectColumns("City", "Country", "Salesperson", "OrderDate", "Shippers.CompanyName", "ProductName", "UnitPrice", "Quantity", "Discount", "ExtendedPrice", "Freight")
+	.Build("Invoices");
 nwindDataSource.Queries.Add(invoicesQuery);
 nwindDataSource.ConnectionOptions.CommandTimeout = 600;
 
 DashboardExtractDataSource extractDataSource = new DashboardExtractDataSource("Invoices Extract Data Source");
-extractDataSource.FileName = GetExtractFileName(path);            
 extractDataSource.ExtractSourceOptions.DataSource = nwindDataSource;
 extractDataSource.ExtractSourceOptions.DataMember = "Invoices";
+
 ```
 
 
@@ -27,13 +27,13 @@ extractDataSource.ExtractSourceOptions.DataMember = "Invoices";
 
 ```cs
 DataSourceInMemoryStorage dataSourceStorage = new DataSourceInMemoryStorage();
-dataSourceStorage.RegisterDataSource("extractDataSource", GetExtractDataSource( path ).SaveToXml());
+dataSourceStorage.RegisterDataSource("extractDataSource", GetExtractDataSource().SaveToXml());
 ASPxDashboard1.SetDataSourceStorage(dataSourceStorage);
 ```
 
 
 <p> </p>
-<p>The UpdateExtractDataSource method is used to extract data from a database. Note that it is impossible to update a used file, thus a new file is always created:</p>
+<p>The AddExtractDataSource method is used to extract data from a database. Note that it is impossible to update a used file, thus a new file is always created:</p>
 
 
 ```cs
@@ -48,11 +48,9 @@ ds.UpdateExtractFile();
 
 
 ```cs
-protected void ASPxDashboard1_ConfigureDataConnection(object sender, ConfigureDataConnectionWebEventArgs e) {
-    ExtractDataSourceConnectionParameters extractCP = e.ConnectionParameters as ExtractDataSourceConnectionParameters;
-    if (extractCP != null) {
-        extractCP.FileName = ...;
-    }
+using (var ds = CreateExtractDataSource()) {
+	ds.FileName = tempPath + fileName;
+	ds.UpdateExtractFile();
 }
 ```
 
