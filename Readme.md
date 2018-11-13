@@ -37,17 +37,6 @@ ASPxDashboard1.SetDataSourceStorage(dataSourceStorage);
 
 
 ```cs
-var ds = GetExtractDataSource(path);
-string fileName = DateTime.Now.ToString(extractFileName);
-ds.FileName = path + "Temp\\" + fileName;
-ds.UpdateExtractFile();
-```
-
-
-<p>In this example, data is extracted on a button click. However, in a real-life application, this solution can be insufficient (e.g. the site may be deployed to the web farm server). We recommend creating a separate windows service that should update data automatically every hour or every day.<br><br>At last, the <a href="https://documentation.devexpress.com/Dashboard/DevExpressDashboardWebASPxDashboardViewer_ConfigureDataConnectiontopic.aspx">ConfigureDataConnection</a> event is used to connect the data source to the latest file version:</p>
-
-
-```cs
 using (var ds = CreateExtractDataSource()) {
 	ds.FileName = tempPath + fileName;
 	ds.UpdateExtractFile();
@@ -55,6 +44,26 @@ using (var ds = CreateExtractDataSource()) {
 ```
 
 
+<p>In this example, data is extracted on a button click. However, in a real-life application, this solution can be insufficient (e.g. the site may be deployed to the web farm server). We recommend creating a separate windows service that should update data automatically every hour or every day.<br><br>At last, the <a href="https://documentation.devexpress.com/Dashboard/DevExpress.DashboardWeb.ASPxDashboard.ConfigureDataConnection.event">ConfigureDataConnection</a> event is used to connect the data source to the latest file version:</p>
+
+
+```cs
+protected void ASPxDashboard1_ConfigureDataConnection(object sender, ConfigureDataConnectionWebEventArgs e) {
+	ExtractDataSourceConnectionParameters extractCP = e.ConnectionParameters as ExtractDataSourceConnectionParameters;
+	if (extractCP != null) {
+		extractCP.FileName = GetExtractFileName();
+	}
+}
+```
+
+<p>If you want to force dashboard to always load data from the latest version of the ExtractDataSource you need to handle the <a href="https://documentation.devexpress.com/Dashboard/DevExpress.DashboardWeb.ASPxDashboard.CustomParameters.event">CustomParameters</a> event and add a custom parameter indentifying the latests data source. When the parameter is changed the ASPxDashboard will automatically force loading of updated data to internal cache. Please refer to the <a href="https://www.devexpress.com/Support/Center/Question/Details/T520250/">Web Dashboard - How to manage an in-memory data cache when the Client data processing is used</a> article where this concept is described in greater detail</p>
+
+
+```cs
+protected void ASPxDashboard1_CustomParameters(object sender, CustomParametersWebEventArgs e) {
+	e.Parameters.Add(new DashboardParameter("ExtractFileName", typeof(string), GetExtractFileName()));
+}
+```
 <p> </p>
 
 <br/>
