@@ -20,6 +20,17 @@ extractDataSource.ExtractSourceOptions.DataMember = "Invoices";
 
 ```
 
+<p> </p>
+<br>Note that in this code we do not specify the name of the data file. It is provided dynamically using the  <a href="https://documentation.devexpress.com/Dashboard/DevExpress.DashboardWeb.ASPxDashboard.ConfigureDataConnection.event">ConfigureDataConnection</a> event:</p>
+
+```cs
+protected void ASPxDashboard1_ConfigureDataConnection(object sender, ConfigureDataConnectionWebEventArgs e) {
+	ExtractDataSourceConnectionParameters extractCP = e.ConnectionParameters as ExtractDataSourceConnectionParameters;
+	if (extractCP != null) {
+		extractCP.FileName = GetExtractFileName();
+	}
+}
+```
 
 <p> </p>
 <p>To add the data source to the ASPxDashboard control use the solution described in the <a href="https://documentation.devexpress.com/Dashboard/CustomDocument116300.aspx">Register Default Data Sources</a> help topic:</p>
@@ -31,10 +42,8 @@ dataSourceStorage.RegisterDataSource("extractDataSource", GetExtractDataSource()
 ASPxDashboard1.SetDataSourceStorage(dataSourceStorage);
 ```
 
-
 <p> </p>
 <p>The AddExtractDataSource method is used to extract data from a database. Note that it is impossible to update a used file, thus a new file is always created:</p>
-
 
 ```cs
 using (var ds = CreateExtractDataSource()) {
@@ -43,21 +52,7 @@ using (var ds = CreateExtractDataSource()) {
 }
 ```
 
-
-<p>In this example, data is extracted on a button click. However, in a real-life application, this solution can be insufficient (e.g. the site may be deployed to the web farm server). We recommend creating a separate windows service that should update data automatically every hour or every day.<br><br>At last, the <a href="https://documentation.devexpress.com/Dashboard/DevExpress.DashboardWeb.ASPxDashboard.ConfigureDataConnection.event">ConfigureDataConnection</a> event is used to connect the data source to the latest file version:</p>
-
-
-```cs
-protected void ASPxDashboard1_ConfigureDataConnection(object sender, ConfigureDataConnectionWebEventArgs e) {
-	ExtractDataSourceConnectionParameters extractCP = e.ConnectionParameters as ExtractDataSourceConnectionParameters;
-	if (extractCP != null) {
-		extractCP.FileName = GetExtractFileName();
-	}
-}
-```
-
-<p>If you want to force dashboard to always load data from the latest version of the ExtractDataSource you need to handle the <a href="https://documentation.devexpress.com/Dashboard/DevExpress.DashboardWeb.ASPxDashboard.CustomParameters.event">CustomParameters</a> event and add a custom parameter indentifying the latests data source. When the parameter is changed the ASPxDashboard will automatically force loading of updated data to internal cache. Please refer to the <a href="https://www.devexpress.com/Support/Center/Question/Details/T520250/">Web Dashboard - How to manage an in-memory data cache when the Client data processing is used</a> article where this concept is described in greater detail</p>
-
+<p>If you want to force a dashboard to always load data from the latest version of the ExtractDataSource, you need to handle the  <a href="https://documentation.devexpress.com/Dashboard/DevExpress.DashboardWeb.ASPxDashboard.CustomParameters.event">CustomParameters</a> event and add a custom parameter identifying the latests data source. When the parameter is changed the ASPxDashboard will automatically force loading of updated data to the internal cache. Please refer to the <a href="https://www.devexpress.com/Support/Center/Question/Details/T520250/">Web Dashboard - How to manage an in-memory data cache when the Client data processing is used</a> article where this concept is described in greater detail</p>
 
 ```cs
 protected void ASPxDashboard1_CustomParameters(object sender, CustomParametersWebEventArgs e) {
@@ -66,6 +61,6 @@ protected void ASPxDashboard1_CustomParameters(object sender, CustomParametersWe
 ```
 <p> </p>
 
-<br/>
+<p>In this example, data is extracted on a button click. However, in a real-life application, this solution can be insufficient (e.g. the site may be deployed to the web farm server). We recommend creating a separate windows service that should update data automatically every hour or every day.<br>
 
 
