@@ -21,7 +21,7 @@ extractDataSource.ExtractSourceOptions.DataMember = "Invoices";
 ```
 
 <p> </p>
-<br>Note that in this code we do not specify the name of the data file. It is provided dynamically using the  <a href="https://documentation.devexpress.com/Dashboard/DevExpress.DashboardWeb.ASPxDashboard.ConfigureDataConnection.event">ConfigureDataConnection</a> event:</p>
+<br>In this code I do not specify the name of the data file. It is provided dynamically using the  <a href="https://documentation.devexpress.com/Dashboard/DevExpress.DashboardWeb.ASPxDashboard.ConfigureDataConnection.event">ConfigureDataConnection</a> event:</p>
 
 ```cs
 protected void ASPxDashboard1_ConfigureDataConnection(object sender, ConfigureDataConnectionWebEventArgs e) {
