@@ -31,15 +31,6 @@ Namespace ASP_WebDashboard
         Protected bUpdateDS As Global.DevExpress.Web.ASPxButton
 
         ''' <summary>
-        ''' hiPath control.
-        ''' </summary>
-        ''' <remarks>
-        ''' Auto-generated field.
-        ''' To modify move field declaration from designer file to code-behind file.
-        ''' </remarks>
-        Protected hiPath As Global.System.Web.UI.HtmlControls.HtmlInputHidden
-
-        ''' <summary>
         ''' ASPxDashboard1 control.
         ''' </summary>
         ''' <remarks>
