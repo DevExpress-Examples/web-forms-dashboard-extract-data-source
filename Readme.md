@@ -1,7 +1,7 @@
 <!-- default file list -->
 *Files to look at*:
 
-* [Default.aspx](./CS/ASP_WebDashboard/Default.aspx) (VB: [Default.aspx.vb](./VB/ASP_WebDashboard/Default.aspx.vb))
+* [Default.aspx](./CS/ASP_WebDashboard/Default.aspx) (VB: [Default.aspx](./VB/ASP_WebDashboard/Default.aspx))
 * [Default.aspx.cs](./CS/ASP_WebDashboard/Default.aspx.cs) (VB: [Default.aspx.vb](./VB/ASP_WebDashboard/Default.aspx.vb))
 <!-- default file list end -->
 # How to use DashboardExtractDataSource in the ASPxDashboard control
