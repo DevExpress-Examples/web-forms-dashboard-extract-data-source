@@ -23,17 +23,17 @@ nwindDataSource.ConnectionOptions.CommandTimeout = 600;
 DashboardExtractDataSource extractDataSource = new DashboardExtractDataSource("Invoices Extract Data Source");
 extractDataSource.ExtractSourceOptions.DataSource = nwindDataSource;
 extractDataSource.ExtractSourceOptions.DataMember = "Invoices";
-
+extractDataSource.FileName = extractFileName;
 ```
 
 <p> </p>
-<br>In this code I do not specify the name of the data file. It is provided dynamically using the  <a href="https://documentation.devexpress.com/Dashboard/DevExpress.DashboardWeb.ASPxDashboard.ConfigureDataConnection.event">ConfigureDataConnection</a> event:</p>
+<br>To set the correct extract file name for loaded dashboards, handle the  <a href="https://documentation.devexpress.com/Dashboard/DevExpress.DashboardWeb.ASPxDashboard.ConfigureDataConnection.event">ConfigureDataConnection</a> event:</p>
 
 ```cs
 protected void ASPxDashboard1_ConfigureDataConnection(object sender, ConfigureDataConnectionWebEventArgs e) {
 	ExtractDataSourceConnectionParameters extractCP = e.ConnectionParameters as ExtractDataSourceConnectionParameters;
 	if (extractCP != null) {
-		extractCP.FileName = GetExtractFileName();
+		extractCP.FileName = extractFileName;
 	}
 }
 ```
@@ -49,20 +49,41 @@ ASPxDashboard1.SetDataSourceStorage(dataSourceStorage);
 ```
 
 <p> </p>
-<p>The AddExtractDataSource method is used to extract data from a database. Note that it is impossible to update a used file, thus a new file is always created:</p>
+<p>To create a data extract file when the dashboard is loaded for the first time, use the following code :</p>
 
 ```cs
-using (var ds = CreateExtractDataSource()) {
-	ds.FileName = tempPath + fileName;
-	ds.UpdateExtractFile();
+if (!File.Exists(extractFileName)) {
+     using (var ds = CreateExtractDataSource()) {
+         ds.UpdateExtractFile();
+     }
 }
 ```
 
-<p>If you want to force a dashboard to always load data from the latest version of the ExtractDataSource, you need to handle the  <a href="https://documentation.devexpress.com/Dashboard/DevExpress.DashboardWeb.ASPxDashboard.CustomParameters.event">CustomParameters</a> event and add a custom parameter identifying the latests data source. When the parameter is changed the ASPxDashboard will automatically force loading of updated data to the internal cache. Please refer to the <a href="https://www.devexpress.com/Support/Center/Question/Details/T520250/">Web Dashboard - How to manage an in-memory data cache when the Client data processing is used</a> article where this concept is described in greater detail</p>
+<p>To update the data extract file and load the updated data in ASPxDashboard, send an AJAX request to the server and call the DashboardExtractDataSource.UpdateFile method there. Once a new file is created on the server, you can return the callback back to the client and call the ASPxClientDashboard.Refresh method to reload the control with new data:
+
+```js
+function UpdateExtractDataSource() {
+    $.ajax({
+        url: "Default.aspx/UpdateExtractDataSource",
+        type: "POST",
+        data: {},
+        contentType: "application/json; charset=utf-8"
+    }).done(function (result) {
+        dashboard.ReloadData();
+    });
+}
+```
 
 ```cs
-protected void ASPxDashboard1_CustomParameters(object sender, CustomParametersWebEventArgs e) {
-	e.Parameters.Add(new DashboardParameter("ExtractFileName", typeof(string), GetExtractFileName()));
+[WebMethod]
+public static void UpdateExtractDataSource() {
+     DashboardExtractDataSource ds = CreateExtractDataSource();
+     ManualResetEvent mre = new ManualResetEvent(false);
+     DashboardExtractDataSource.UpdateFile(ds,
+          (a, b) => { mre.Set(); },
+          (a, b) => { });
+          // Wait until data is refreshed in Extract Data Source
+     mre.WaitOne();
 }
 ```
 <p> </p>
