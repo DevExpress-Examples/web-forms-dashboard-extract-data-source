@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Services;
@@ -14,30 +15,24 @@ using System.Web.UI.WebControls;
 namespace ASP_WebDashboard {
     public partial class Default : System.Web.UI.Page {
 
-        const string extractFileName = "\"ExtractDS_\"yyyyMMddHHmmssfff\".dat\"";
+        static string extractFileName = HostingEnvironment.MapPath("~/App_Data/ExtractDataSource/") + "ExtractDS.dat";
         protected void Page_Load(object sender, EventArgs e) {
             DataSourceInMemoryStorage dataSourceStorage = new DataSourceInMemoryStorage();
             dataSourceStorage.RegisterDataSource("extractDataSource", CreateExtractDataSource().SaveToXml());
             ASPxDashboard1.SetDataSourceStorage(dataSourceStorage);
+
+            if (!File.Exists(extractFileName)) {
+                using (var ds = CreateExtractDataSource()) {
+                    ds.UpdateExtractFile();
+                }
+            }
         }
 
         protected void ASPxDashboard1_ConfigureDataConnection(object sender, ConfigureDataConnectionWebEventArgs e) {
             ExtractDataSourceConnectionParameters extractCP = e.ConnectionParameters as ExtractDataSourceConnectionParameters;
             if (extractCP != null) {
-                extractCP.FileName = GetExtractFileName();
+                extractCP.FileName = extractFileName;
             }
-        }
-        protected void ASPxDashboard1_CustomParameters(object sender, CustomParametersWebEventArgs e) {
-            e.Parameters.Add(new DashboardParameter("ExtractFileName", typeof(string), GetExtractFileName()));
-        }
-
-        private string GetExtractFileName() {
-            var path = Server.MapPath("~/App_Data/ExtractDataSource/");
-            var file = Directory.GetFiles(path).Select(fn => new FileInfo(fn)).OrderByDescending(f => f.CreationTime).FirstOrDefault();
-            if (file != null)
-                return file.FullName;
-            else
-                return AddExtractDataSource();
         }
 
         private static DashboardExtractDataSource CreateExtractDataSource() {
@@ -50,29 +45,22 @@ namespace ASP_WebDashboard {
             nwindDataSource.ConnectionOptions.CommandTimeout = 600;
 
             DashboardExtractDataSource extractDataSource = new DashboardExtractDataSource("Invoices Extract Data Source");
-
             extractDataSource.ExtractSourceOptions.DataSource = nwindDataSource;
             extractDataSource.ExtractSourceOptions.DataMember = "Invoices";
+            extractDataSource.FileName = extractFileName;
+
             return extractDataSource;
         }
 
         [WebMethod]
-        public static string AddExtractDataSource() {
-            string fileName = DateTime.Now.ToString(extractFileName);
-            string path = HostingEnvironment.MapPath("~/App_Data/ExtractDataSource/");
-            string tempPath = path + "Temp\\";
-            Directory.CreateDirectory(tempPath);
-            using (var ds = CreateExtractDataSource()) {
-                ds.FileName = tempPath + fileName;
-                ds.UpdateExtractFile();
-            }
-            File.Move(tempPath + fileName, path + fileName);
-            if (!Directory.EnumerateFiles(tempPath).Any()) {
-                Directory.Delete(tempPath);
-            }
-            return path + fileName;
+        public static void UpdateExtractDataSource() {
+            DashboardExtractDataSource ds = CreateExtractDataSource();
+            ManualResetEvent mre = new ManualResetEvent(false);
+            DashboardExtractDataSource.UpdateFile(ds,
+                (a, b) => { mre.Set(); },
+                (a, b) => { });
+            // Wait until data is refreshed in Extract Data Source
+            mre.WaitOne();
         }
-
-
     }
 }
