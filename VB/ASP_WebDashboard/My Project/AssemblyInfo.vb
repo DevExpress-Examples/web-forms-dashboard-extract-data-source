@@ -10,7 +10,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyConfiguration("")>
 <Assembly: AssemblyCompany("")>
 <Assembly: AssemblyProduct("ASP_WebDashboard")>
-<Assembly: AssemblyCopyright("Copyright ? 2017")>
+<Assembly: AssemblyCopyright("Copyright  2019")>
 <Assembly: AssemblyTrademark("")>
 <Assembly: AssemblyCulture("")>
 

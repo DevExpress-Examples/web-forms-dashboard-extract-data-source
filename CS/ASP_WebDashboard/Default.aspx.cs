@@ -2,17 +2,13 @@
 using DevExpress.DashboardWeb;
 using DevExpress.DataAccess.Sql;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
-using System.Web;
 using System.Web.Hosting;
 using System.Web.Services;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
-namespace ASP_WebDashboard {
+namespace ASP_WebDashboard
+{
     public partial class Default : System.Web.UI.Page {
 
         static string extractFileName = HostingEnvironment.MapPath("~/App_Data/ExtractDataSource/") + "ExtractDS.dat";
@@ -42,7 +38,7 @@ namespace ASP_WebDashboard {
                 .SelectColumns("City", "Country", "Salesperson", "OrderDate", "Shippers.CompanyName", "ProductName", "UnitPrice", "Quantity", "Discount", "ExtendedPrice", "Freight")
                 .Build("Invoices");
             nwindDataSource.Queries.Add(invoicesQuery);
-            nwindDataSource.ConnectionOptions.CommandTimeout = 600;
+            nwindDataSource.ConnectionOptions.DbCommandTimeout = 600;
 
             DashboardExtractDataSource extractDataSource = new DashboardExtractDataSource("Invoices Extract Data Source");
             extractDataSource.ExtractSourceOptions.DataSource = nwindDataSource;
@@ -59,7 +55,7 @@ namespace ASP_WebDashboard {
             DashboardExtractDataSource.UpdateFile(ds,
                 (a, b) => { mre.Set(); },
                 (a, b) => { });
-            // Wait until data is refreshed in Extract Data Source
+            // Wait until the data is refreshed in the Extract Data Source.
             mre.WaitOne();
         }
     }

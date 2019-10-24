@@ -2,15 +2,10 @@
 Imports DevExpress.DashboardWeb
 Imports DevExpress.DataAccess.Sql
 Imports System
-Imports System.Collections.Generic
 Imports System.IO
-Imports System.Linq
 Imports System.Threading
-Imports System.Web
 Imports System.Web.Hosting
 Imports System.Web.Services
-Imports System.Web.UI
-Imports System.Web.UI.WebControls
 
 Namespace ASP_WebDashboard
 	Partial Public Class [Default]
@@ -40,7 +35,7 @@ Namespace ASP_WebDashboard
 			Dim nwindDataSource As New DashboardSqlDataSource("Northwind Invoices", "nwindConnection")
 			Dim invoicesQuery As SelectQuery = SelectQueryFluentBuilder.AddTable("Invoices").SelectColumns("City", "Country", "Salesperson", "OrderDate", "Shippers.CompanyName", "ProductName", "UnitPrice", "Quantity", "Discount", "ExtendedPrice", "Freight").Build("Invoices")
 			nwindDataSource.Queries.Add(invoicesQuery)
-			nwindDataSource.ConnectionOptions.CommandTimeout = 600
+			nwindDataSource.ConnectionOptions.DbCommandTimeout = 600
 
 			Dim extractDataSource As New DashboardExtractDataSource("Invoices Extract Data Source")
 			extractDataSource.ExtractSourceOptions.DataSource = nwindDataSource
@@ -57,8 +52,8 @@ Namespace ASP_WebDashboard
 			DashboardExtractDataSource.UpdateFile(ds, Sub(a, b)
 				mre.Set()
 			End Sub, Sub(a, b)
-			End Sub)
-			' Wait until data is refreshed in Extract Data Source
+End Sub)
+			' Wait until the data is refreshed in the Extract Data Source.
 			mre.WaitOne()
 		End Sub
 	End Class
