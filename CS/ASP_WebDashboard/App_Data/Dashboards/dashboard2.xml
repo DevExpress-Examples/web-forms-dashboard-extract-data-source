@@ -3,7 +3,7 @@
   <Title Text="New Dashboard" />
   <DataSources>
     <ExtractFileDataSource ComponentName="extractFileDataSource1" Name="Invoices Extract Data Source">
-      <FileName>c:\Work\Projects\WorkExamples\ASP_WebDashboard\ASP_WebDashboard\App_Data\ExtractDataSource\ExtractDS_20170420114628636.dat</FileName>
+      <FileName>ExtractDS_20170420114628636.dat</FileName>
       <ExtractSourceDataMember>Invoices</ExtractSourceDataMember>
       <ExtractSource>
         <SqlDataSource>
