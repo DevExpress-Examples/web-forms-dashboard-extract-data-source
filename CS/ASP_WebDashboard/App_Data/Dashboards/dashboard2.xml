@@ -3,7 +3,7 @@
   <Title Text="New Dashboard" />
   <DataSources>
     <ExtractFileDataSource ComponentName="extractFileDataSource1" Name="Invoices Extract Data Source">
-      <FileName>ExtractDS_20170420114628636.dat</FileName>
+      <FileName>ExtractDS.dat</FileName>
       <ExtractSourceDataMember>Invoices</ExtractSourceDataMember>
       <ExtractSource>
         <SqlDataSource>
