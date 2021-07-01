@@ -5,8 +5,7 @@
 * [Default.aspx.cs](./CS/ASP_WebDashboard/Default.aspx.cs) (VB: [Default.aspx.vb](./VB/ASP_WebDashboard/Default.aspx.vb))
 <!-- default file list end -->
 
-# How to Use DashboardExtractDataSource to Provide Data to the ASPxDashboard Control
-
+# Dashboard for Web Forms - How to Use DashboardExtractDataSource to provide data
 
 This example demonstrates basic approaches and code snippets that can be used to bind the [ASPxDashboard](https://docs.devexpress.com/Dashboard/DevExpress.DashboardWeb.ASPxDashboard) control to the [DashboardExtractDataSource](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardExtractDataSource). 
 
