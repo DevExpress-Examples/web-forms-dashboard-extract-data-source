@@ -91,8 +91,14 @@ public static void UpdateExtractDataSource() {
      mre.WaitOne();
 }
 ```
-<p> </p>
 
 In this example, data is extracted on a button click. However, in a real-life application, this solution can be insufficient (e.g. the site may be deployed to the web farm server). We recommend creating a separate windows service that should update data automatically every hour or every day.
 
+## Documentation
 
+- [DashboardExtractDataSource Class](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardExtractDataSource)
+- [Extract Data Source](https://docs.devexpress.com/Dashboard/115900/winforms-dashboard/winforms-designer/create-dashboards-in-the-winforms-designer/providing-data/extract-data-source)
+
+## More Examples
+
+- [Dashboard for Web Forms - How to Register Data Sources](https://github.com/DevExpress-Examples/asp-net-web-forms-dashboard-register-data-sources)
