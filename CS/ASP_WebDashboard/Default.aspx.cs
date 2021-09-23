@@ -3,6 +3,7 @@ using DevExpress.DashboardWeb;
 using DevExpress.DataAccess.Sql;
 using System;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Web.Hosting;
 using System.Web.Services;
@@ -49,14 +50,19 @@ namespace ASP_WebDashboard
         }
 
         [WebMethod]
-        public static void UpdateExtractDataSource() {
+        public static string UpdateExtractDataSource() {
             DashboardExtractDataSource ds = CreateExtractDataSource();
-            ManualResetEvent mre = new ManualResetEvent(false);
-            DashboardExtractDataSource.UpdateFile(ds,
-                (a, b) => { mre.Set(); },
-                (a, b) => { });
+            StringBuilder sb = new StringBuilder("We updated your extract data source. ");
+            var task = DashboardExtractDataSource.UpdateFile(ds,
+                (fileName, result) => {
+                    sb.AppendLine($"{DateTime.Now.ToString("T")} - Data Updated - {result} - {Path.GetFileName(fileName)}. ");
+                },
+                (fileName, result) => {
+                    sb.AppendLine($"{DateTime.Now.ToString("T")} - File Updated - {result} - {Path.GetFileName(fileName)}. ");
+                });
             // Wait until the data is refreshed in the Extract Data Source.
-            mre.WaitOne();
+            task.Wait();
+            return sb.ToString();
         }
     }
 }

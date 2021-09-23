@@ -16,7 +16,7 @@ This example demonstrates basic approaches and code snippets that can be used to
 
 The [Extract Data Source](https://docs.devexpress.com/Dashboard/115900) improves performance when a complex query or a stored procedure takes a significant time to get data from a database. 
 
-The [DashboardExtractDataSource](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardExtractDataSource) class implements the Extract Data Source concept and allows you to request the data once and save it in the compressed and optimized form to a file. Subsequently tan application can retrieve data from that file or create a new file when data is updated. 
+The [DashboardExtractDataSource](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardExtractDataSource) class implements the Extract Data Source concept and allows you to request the data once and save it in the compressed and optimized form to a file. Subsequently tan application can retrieve data from that file or create a new file when data is updated.
 
 This concept is described in the <a href="https://community.devexpress.com/blogs/news/archive/2016/08/16/faster-dashboards-with-the-data-extract-source.aspx">Faster Dashboards with the “Data Extract” Source</a> blog.
 
@@ -78,22 +78,30 @@ function UpdateExtractDataSource() {
         type: "POST",
         data: {},
         contentType: "application/json; charset=utf-8"
-    }).done(function (result) {
+    }).then(function (result) {
         dashboard.ReloadData();
+        DevExpress.ui.notify(result.d, "success", 5000);
+    }, function () {
+        DevExpress.ui.notify("We could not update extract data source.", "error", 2000)
     });
 }
 ```
 
 ```cs
 [WebMethod]
-public static void UpdateExtractDataSource() {
-     DashboardExtractDataSource ds = CreateExtractDataSource();
-     ManualResetEvent mre = new ManualResetEvent(false);
-     DashboardExtractDataSource.UpdateFile(ds,
-          (a, b) => { mre.Set(); },
-          (a, b) => { });
-          // Wait until data is refreshed in Extract Data Source
-     mre.WaitOne();
+public static string UpdateExtractDataSource() {
+    DashboardExtractDataSource ds = CreateExtractDataSource();
+    StringBuilder sb = new StringBuilder("We updated your extract data source. ");
+    var task = DashboardExtractDataSource.UpdateFile(ds,
+        (fileName, result) => {
+            sb.AppendLine($"{DateTime.Now.ToString("T")} - Data Updated - {result} - {Path.GetFileName(fileName)}. ");
+        },
+        (fileName, result) => {
+            sb.AppendLine($"{DateTime.Now.ToString("T")} - File Updated - {result} - {Path.GetFileName(fileName)}. ");
+        });
+    // Wait until the data is refreshed in the Extract Data Source.
+    task.Wait();
+    return sb.ToString();
 }
 ```
 
