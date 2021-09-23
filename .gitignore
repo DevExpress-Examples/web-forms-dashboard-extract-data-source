@@ -295,3 +295,8 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+*.bak
+CS/ASP_WebDashboard/App_Data/ExtractDataSource/*.*
+VB/ASP_WebDashboard/App_Data/ExtractDataSource/*.*
+bin
+obj
