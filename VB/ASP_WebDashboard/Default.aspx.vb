@@ -1,4 +1,4 @@
-﻿Imports DevExpress.DashboardCommon
+Imports DevExpress.DashboardCommon
 Imports DevExpress.DashboardWeb
 Imports DevExpress.DataAccess.Sql
 Imports System
@@ -12,12 +12,14 @@ Imports System.Web.UI
 Imports System.Web.UI.WebControls
 
 Namespace ASP_WebDashboard
-    Partial Public Class [Default]
+
+    Public Partial Class [Default]
         Inherits System.Web.UI.Page
 
-        Private Const extractFileName As String = """ExtractDS_""yyyyMMddHHmmssfff"".dat"""
+        Const extractFileName As String = """ExtractDS_""yyyyMMddHHmmssfff"".dat"""
+
         Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs)
-            Dim dataSourceStorage As New DataSourceInMemoryStorage()
+            Dim dataSourceStorage As DataSourceInMemoryStorage = New DataSourceInMemoryStorage()
             dataSourceStorage.RegisterDataSource("extractDataSource", CreateExtractDataSource().SaveToXml())
             ASPxDashboard1.SetDataSourceStorage(dataSourceStorage)
         End Sub
@@ -28,13 +30,14 @@ Namespace ASP_WebDashboard
                 extractCP.FileName = GetExtractFileName()
             End If
         End Sub
+
         Protected Sub ASPxDashboard1_CustomParameters(ByVal sender As Object, ByVal e As CustomParametersWebEventArgs)
             e.Parameters.Add(New DashboardParameter("ExtractFileName", GetType(String), GetExtractFileName()))
         End Sub
 
         Private Function GetExtractFileName() As String
             Dim path = Server.MapPath("~/App_Data/ExtractDataSource/")
-            Dim file = Directory.GetFiles(path).Select(Function(fn) New FileInfo(fn)).OrderByDescending(Function(f) f.CreationTime).FirstOrDefault()
+            Dim file = Directory.GetFiles(path).[Select](Function(fn) New FileInfo(fn)).OrderByDescending(Function(f) f.CreationTime).FirstOrDefault()
             If file IsNot Nothing Then
                 Return file.FullName
             Else
@@ -43,21 +46,19 @@ Namespace ASP_WebDashboard
         End Function
 
         Private Shared Function CreateExtractDataSource() As DashboardExtractDataSource
-            Dim nwindDataSource As New DashboardSqlDataSource("Northwind Invoices", "nwindConnection")
+            Dim nwindDataSource As DashboardSqlDataSource = New DashboardSqlDataSource("Northwind Invoices", "nwindConnection")
             Dim invoicesQuery As SelectQuery = SelectQueryFluentBuilder.AddTable("Invoices").SelectColumns("City", "Country", "Salesperson", "OrderDate", "Shippers.CompanyName", "ProductName", "UnitPrice", "Quantity", "Discount", "ExtendedPrice", "Freight").Build("Invoices")
             nwindDataSource.Queries.Add(invoicesQuery)
             nwindDataSource.ConnectionOptions.CommandTimeout = 600
-
-            Dim extractDataSource As New DashboardExtractDataSource("Invoices Extract Data Source")
-
+            Dim extractDataSource As DashboardExtractDataSource = New DashboardExtractDataSource("Invoices Extract Data Source")
             extractDataSource.ExtractSourceOptions.DataSource = nwindDataSource
             extractDataSource.ExtractSourceOptions.DataMember = "Invoices"
             Return extractDataSource
         End Function
 
-        <WebMethod> _
+        <WebMethod>
         Public Shared Function AddExtractDataSource() As String
-            Dim fileName As String = Date.Now.ToString(extractFileName)
+            Dim fileName As String = DateTime.Now.ToString(extractFileName)
             Dim path As String = HostingEnvironment.MapPath("~/App_Data/ExtractDataSource/")
             Dim tempPath As String = path & "Temp\"
             Directory.CreateDirectory(tempPath)
@@ -65,13 +66,13 @@ Namespace ASP_WebDashboard
                 ds.FileName = tempPath & fileName
                 ds.UpdateExtractFile()
             End Using
+
             File.Move(tempPath & fileName, path & fileName)
             If Not Directory.EnumerateFiles(tempPath).Any() Then
                 Directory.Delete(tempPath)
             End If
+
             Return path & fileName
         End Function
-
-
     End Class
 End Namespace
