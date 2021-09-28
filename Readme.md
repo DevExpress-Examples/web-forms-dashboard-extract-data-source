@@ -10,7 +10,7 @@ This example demonstrates basic approaches and code snippets that can be used to
 
 The [Extract Data Source](https://docs.devexpress.com/Dashboard/115900) improves performance when a complex query or a stored procedure takes a significant time to get data from a database. 
 
-The [DashboardExtractDataSource](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardExtractDataSource) class implements the Extract Data Source concept and allows you to request the data once and save it in the compressed and optimized form to a file. Subsequently tan application can retrieve data from that file or create a new file when data is updated.
+The [DashboardExtractDataSource](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardExtractDataSource) class implements the Extract Data Source concept and allows you to request the data once and save it in the compressed and optimized form to a file. Subsequently an application can retrieve data from that file or create a new file when data is updated.
 
 The code snippet below creates the **DashboardExtractDataSource** and connects it to the [DashboardSqlDataSource](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardSqlDataSource) instance. The [DbCommandTimeout](https://docs.devexpress.com/CoreLibraries/DevExpress.DataAccess.Sql.ConnectionOptions.DbCommandTimeout) property is set to 600 to increase the query timeout.
 
