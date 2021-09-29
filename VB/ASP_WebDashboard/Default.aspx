@@ -14,11 +14,14 @@
 				type: "POST",
 				data: {},
 				contentType: "application/json; charset=utf-8"
-			}).done(function (result) {
-				dashboard.ReloadData();
-			});
+            }).then(function (result) {
+                dashboard.ReloadData();
+                DevExpress.ui.notify(result.d, "success", 5000);
+            }, function () {
+                DevExpress.ui.notify("We could not update extract data source.", "error", 2000)
+            });
 		}
-	</script>
+    </script>
 </head>
 <body>
 	<form id="form1" runat="server">
