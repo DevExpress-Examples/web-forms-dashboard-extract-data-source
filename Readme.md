@@ -8,9 +8,9 @@
 
 This example demonstrates basic approaches and code snippets that can be used to bind the [ASPxDashboard](https://docs.devexpress.com/Dashboard/DevExpress.DashboardWeb.ASPxDashboard) control to the [DashboardExtractDataSource](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardExtractDataSource). 
 
-The [Extract Data Source](https://docs.devexpress.com/Dashboard/115900) improves performance when a complex query or a stored procedure takes a significant time to get data from a database. 
+The [Extract Data Source](https://docs.devexpress.com/Dashboard/115900) improves performance when a complex query or a stored procedure takes a significant amount of time to get data from a database. 
 
-The [DashboardExtractDataSource](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardExtractDataSource) class implements the Extract Data Source concept and allows you to request the data once and save it in the compressed and optimized form to a file. Subsequently an application can retrieve data from that file or create a new file when data is updated.
+The [DashboardExtractDataSource](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardExtractDataSource) class implements the Extract Data Source concept, and allows you to request data once and save it in the compressed and optimized form to a file. Subsequently, an application can retrieve data from that file or create a new file when data is updated.
 
 The code snippet below creates the **DashboardExtractDataSource** and connects it to the [DashboardSqlDataSource](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardSqlDataSource) instance. The [DbCommandTimeout](https://docs.devexpress.com/CoreLibraries/DevExpress.DataAccess.Sql.ConnectionOptions.DbCommandTimeout) property is set to 600 to increase the query timeout.
 
@@ -60,7 +60,7 @@ if (!File.Exists(extractFileName)) {
 }
 ```
 
-To update the data extract file and load the updated data in ASPxDashboard, send an AJAX request to the server and call the [DashboardExtractDataSource.UpdateFile](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardExtractDataSource.UpdateFile(DashboardExtractDataSource--Action-String--ExtractUpdateResult---Action-String--ExtractUpdateResult-)) method there. Once a new file is created on the server, you can return the callback back to the client and call the [ASPxClientDashboard.ReloadData](http://docs.devexpress.devx/Dashboard/js-ASPxClientDashboard?p=netframework#js_aspxclientdashboard_reloaddata) method to reload the control with new data:
+To update the data extract file and load the updated data in ASPxDashboard, send an AJAX request to the server and call the [DashboardExtractDataSource.UpdateFile](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardExtractDataSource.UpdateFile(DashboardExtractDataSource--Action-String--ExtractUpdateResult---Action-String--ExtractUpdateResult-)) method there. Once a new file is created on the server, you can return the callback back to the client and call the [ASPxClientDashboard.ReloadData](https://docs.devexpress.com/Dashboard/js-ASPxClientDashboard?p=netframework#js_aspxclientdashboard_reloaddata) method to reload the control with new data:
 
 ```js
 function UpdateExtractDataSource() {
@@ -96,7 +96,7 @@ public static string UpdateExtractDataSource() {
 }
 ```
 
-In this example, click a button to extract data. However, in a real-life application, this solution can be insufficient (for example, the site may be deployed to the web farm server). We recommend that you create a separate windows service that should update data automatically every hour or every day.
+In this example, click a button to extract data. However, in a real-life application, this solution can be insufficient (for example, the site may be deployed to the web farm server). We recommend that you create a separate windows service that updates data automatically every hour or every day.
 
 
 <!-- default file list -->
