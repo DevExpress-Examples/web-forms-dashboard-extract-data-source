@@ -60,7 +60,7 @@ if (!File.Exists(extractFileName)) {
 }
 ```
 
-To update the data extract file and load the updated data in ASPxDashboard, send an AJAX request to the server and call the [DashboardExtractDataSource.UpdateFile](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardExtractDataSource.UpdateFile(DashboardExtractDataSource--Action-String--ExtractUpdateResult---Action-String--ExtractUpdateResult-)) method there. Once a new file is created on the server, you can return the callback back to the client and call the [ASPxClientDashboard.ReloadData](https://docs.devexpress.com/Dashboard/js-ASPxClientDashboard?p=netframework#js_aspxclientdashboard_reloaddata) method to reload the control with new data:
+To update the data extract file and load the updated data in ASPxDashboard, send an AJAX request to the server and call the [DashboardExtractDataSource.UpdateFile](https://docs.devexpress.com/Dashboard/DevExpress.DashboardCommon.DashboardExtractDataSource.UpdateFile(DashboardExtractDataSource--Action-String--ExtractUpdateResult---Action-String--ExtractUpdateResult-)) method there. Once a new file is created on the server, you can return the callback back to the client and call the [ASPxClientDashboard.ReloadData](https://docs.devexpress.com/Dashboard/js-DevExpress.Dashboard.Web.WebForms.ASPxClientDashboard?p=netframework#js_aspxclientdashboard_reloaddata) method to reload the control with new data:
 
 ```js
 function UpdateExtractDataSource() {
