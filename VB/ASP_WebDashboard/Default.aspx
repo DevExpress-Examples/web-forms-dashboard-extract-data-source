@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="vb" AutoEventWireup="true" CodeBehind="Default.aspx.vb" Inherits="ASP_WebDashboard.Default" %>
 
-<%@ Register assembly="DevExpress.Dashboard.v21.1.Web.WebForms, Version=21.1.12.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.DashboardWeb" tagprefix="dx" %>
+<%@ Register assembly="DevExpress.Dashboard.v24.2.Web.WebForms, Version=24.2.1.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.DashboardWeb" tagprefix="dx" %>
 
 <!DOCTYPE html>
 
