@@ -116,7 +116,7 @@ In this example, click a button to extract data. However, in a real-life applica
 
 - [Dashboard for Web Forms - How to Register Data Sources](https://github.com/DevExpress-Examples/asp-net-web-forms-dashboard-register-data-sources)
 <!-- feedback -->
-## Does this example address your development requirements/objectives?
+## Does This Example Address Your Development Requirements/Objectives?
 
 [<img src="https://www.devexpress.com/support/examples/i/yes-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=web-forms-dashboard-extract-data-source&~~~was_helpful=yes) [<img src="https://www.devexpress.com/support/examples/i/no-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=web-forms-dashboard-extract-data-source&~~~was_helpful=no)
 
